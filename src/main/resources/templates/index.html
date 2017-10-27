@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8"/>
+    <title>Jabble</title>
+    <link rel="stylesheet" href="/css/index.css"/>
+    <link href="https://fonts.googleapis.com/css?family=Gloria+Hallelujah" rel="stylesheet"/>
+</head>
+
+<body>
+<nav th:if="${#httpSession.getAttribute('username')}">
+    <a href="/">Jabble</a>
+    <a href="/newgab">Create a new Gab</a>
+    <a href="/">
+        Logged in as: <span th:text="${#httpSession.getAttribute('username')}"></span>
+    </a>
+    <a href="/logout">Log Out</a>
+</nav>
+
+<nav th:unless="${#httpSession.getAttribute('username')}">
+    <a href="/login">Log in</a>
+    <a href="/signup">Sign Up</a>
+</nav>
+
+<div th:if="${login}" th:remove="tag">
+    <div th:replace="fragments :: loginForm"></div>
+</div>
+<div th:if="${signup}" th:remove="tag">
+    <div th:replace="fragments :: signupForm"></div>
+</div>
+
+</body>
+</html>

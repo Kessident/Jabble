@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head></head>
+<body>
+
+
+
+
+
+    <div th:fragment="loginForm">
+        <ul class="errorMessages" th:if="${errorMessages}">
+            <li th:each="">{{.}}</li>
+        </ul>
+
+        <h2>Log in to Jabble</h2>
+
+        <form class="loginForm" action="/login" method="post">
+            <label for="username">Username</label><br/>
+            <input type="text" name="username" id="username" autofocus="true" required="true" autocomplete="off"/><br/>
+
+            <label for="password">Password</label><br/>
+            <input type="password" name="password" id="password" required="true"/><br/>
+
+            <button type="submit">Log In</button>
+        </form>
+
+        <script type="text/javascript" src="/js/login.js"></script>
+    </div>
+
+
+
+
+    <div th:fragment="signupForm">
+        <ul class="errorMessages">
+            {{#errMsgs}}
+            <li>{{.}}</li>
+            {{/errMsgs}}
+        </ul>
+
+        <h2>Sign Up for Jabble</h2>
+
+        <form action="/signup" method="post">
+            <label for="username">Username</label><br/>
+            <input type="text" name="username" required="true" autofocus="true" autocomplete="off"/><br/>
+
+            <label for="password">Password</label><br/>
+            <input type="password" name="password" required="true"/><br/>
+
+            <label for="password">Confirm Password</label><br/>
+            <input type="password" name="passwordConfirm" required="true"/><br/>
+
+            <button type="submit">Sign Up</button>
+        </form>
+
+        <script type="text/javascript" src="/js/signup.js"></script>
+    </div>
+
+
+
+
+    <div th:fragment="db">
+        <ul>
+            {{#results}}
+            <li>id: {{id}}, name: {{username}}</li>
+            {{/results}}
+        </ul>
+    </div>
+
+
+
+
+
+    <div th:fragment="index">
+        {{#gabs}}
+        <div class="gabContainer">
+            <div class="insideContainer">
+                <p><span class="createdBy">{{username}}</span>: {{body}}</p>
+                <p class="createdAt">{{month}} {{day}}, {{year}} {{time}}</p>
+                <span class="msgId">{{id}}</span>
+                <a href="/message/{{id}}"><span class="likes likes{{id}}">{{likes}}</span></a>
+            </div>
+            <div class="buttonContainer">
+                <form class="likeBtnForm" action="likeMsg" method="post" target="hiddenFrame">
+                    <button name="id" class="likeBtn" value="{{id}}">Like</button>
+                </form>
+                <form class="delBtnForm" action="/delMsg" method="post">
+                    <button name="id" class="delBtn" value="{{id}}">Delete</button>
+                </form>
+            </div>
+        </div>
+
+        <hr class="sexy-line"/>
+        {{/gabs}}
+
+        <iframe name="hiddenFrame" width="0" height="0" border="0" style="display: none;"></iframe>
+        <script type="text/javascript" src="/js/index.js"></script>
+    </div>
+
+
+
+
+
+    <div th:fragment="message">
+        {{#msg}}{{username}}: {{body}}<br/>{{month}} {{day}}, {{year}} {{time}}{{/msg}}
+        <h1>Liked By</h1>
+        <ul>
+            {{#likes}}
+            {{#likedBy}}
+            <li>{{username}}</li>
+            {{/likedBy}}
+            {{/likes}}
+        </ul>
+    </div>
+
+
+
+
+
+    <div th:fragment="newgab">
+        <form class="newGabForm" action="/newgab" method="post">
+            <textarea name="newGab" autofocus="true" autocomplete="off"></textarea>
+            <button type="submit">Save Gab</button>
+        </form>
+        <p class="remaining">140 characters remaining</p>
+        <script type="text/javascript" src="/js/newgab.js">
+        </script>
+    </div>
+
+
+</body>
+</html>
