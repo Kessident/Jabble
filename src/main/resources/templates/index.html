@@ -9,25 +9,15 @@
 </head>
 
 <body>
-<nav th:if="${#httpSession.getAttribute('username')}">
-    <a href="/">Jabble</a>
-    <a href="/newgab">Create a new Gab</a>
-    <a href="/">
-        Logged in as: <span th:text="${#httpSession.getAttribute('username')}"></span>
-    </a>
-    <a href="/logout">Log Out</a>
-</nav>
-
-<nav th:unless="${#httpSession.getAttribute('username')}">
-    <a href="/login">Log in</a>
-    <a href="/signup">Sign Up</a>
-</nav>
-
-<div th:if="${login}" th:remove="tag">
-    <div th:replace="fragments :: loginForm"></div>
+<div th:if="${#httpSession.getAttribute('username')}" th:remove="tag">
+    <nav th:replace="fragments :: navLoggedIn"></nav>
 </div>
-<div th:if="${signup}" th:remove="tag">
-    <div th:replace="fragments :: signupForm"></div>
+<div th:unless="${#httpSession.getAttribute('username')}" th:remove="tag">
+    <nav th:replace="fragments :: navNotLoggedIn"></nav>
+</div>
+
+<div th:if="${#httpSession.getAttribute('username')}" th:remove="tag">
+    <div th:replace="fragments :: index"></div>
 </div>
 
 </body>

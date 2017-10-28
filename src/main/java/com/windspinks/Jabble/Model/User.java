@@ -1,17 +1,8 @@
 package com.windspinks.Jabble.Model;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.NoArgsConstructor;
+import javax.persistence.*;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import java.util.List;
-
-@Entity
-@Getter @Setter @NoArgsConstructor
+@Entity @Table(name = "users")
 public class User {
 
     @Id @GeneratedValue
@@ -19,35 +10,37 @@ public class User {
 
     private String username;
     private String password;
-    @OneToMany private List<Message> messagesLiked;
-    @OneToMany private List<Message> messagesCreated;
+
+    public User() {
+    }
 
     public User(String username, String password) {
         this.username = username;
         this.password = password;
     }
 
-    public User(String username, String password, List<Message> messagesLiked, List<Message> messagesCreated) {
+    public int getUserID() {
+        return userID;
+    }
+
+    public void setUserID(int userID) {
+        this.userID = userID;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
         this.password = password;
-        this.messagesLiked = messagesLiked;
-        this.messagesCreated = messagesCreated;
-    }
-
-    public void addMessage(Message newMessage){
-        messagesCreated.add(newMessage);
-    }
-
-    public void removeMessage(Message toBeRemoved){
-        messagesCreated.remove(toBeRemoved);
-    }
-
-    public void toggleLikedStatus(Message message){
-        if (messagesLiked.contains(message)){
-            messagesLiked.remove(message);
-        } else {
-            messagesLiked.add(message);
-        }
     }
 
     @Override
@@ -71,8 +64,6 @@ public class User {
             "userID=" + userID +
             ", username='" + username + '\'' +
             ", password='" + password + '\'' +
-            ", messagesLiked=" + messagesLiked +
-            ", messagesCreated=" + messagesCreated +
             '}';
     }
 }

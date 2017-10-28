@@ -4,12 +4,24 @@
 <body>
 
 
+<nav th:fragment="navLoggedIn">
+    <a href="/">Jabble</a>
+    <a href="/newgab">Create a new Jab</a>
+    <a href="/">
+        Logged in as: <span th:text="${#httpSession.getAttribute('username')}"></span>
+    </a>
+    <a href="/logout">Log Out</a>
+</nav>
 
+<nav th:fragment="navNotLoggedIn">
+    <a href="/login">Log in</a>
+    <a href="/signup">Sign Up</a>
+</nav>
 
 
     <div th:fragment="loginForm">
-        <ul class="errorMessages" th:if="${errorMessages}">
-            <li th:each="">{{.}}</li>
+        <ul class="errorMessages">
+            <li th:text="${errorMessage}"></li>
         </ul>
 
         <h2>Log in to Jabble</h2>
@@ -32,11 +44,8 @@
 
     <div th:fragment="signupForm">
         <ul class="errorMessages">
-            {{#errMsgs}}
-            <li>{{.}}</li>
-            {{/errMsgs}}
+            <li th:text="${errorMessage}"></li>
         </ul>
-
         <h2>Sign Up for Jabble</h2>
 
         <form action="/signup" method="post">
@@ -71,13 +80,12 @@
 
 
     <div th:fragment="index">
-        {{#gabs}}
-        <div class="gabContainer">
+        <div th:each="jab : ${jabs}" class="jabContainer">
             <div class="insideContainer">
-                <p><span class="createdBy">{{username}}</span>: {{body}}</p>
-                <p class="createdAt">{{month}} {{day}}, {{year}} {{time}}</p>
-                <span class="msgId">{{id}}</span>
-                <a href="/message/{{id}}"><span class="likes likes{{id}}">{{likes}}</span></a>
+                <p><span class="createdBy" th:text="">{{username}}</span>: {{body}}</p>
+                <p class="createdAt" th:text="${formattedCreatedAt}"></p>
+                <span class="msgId" th:text="${messageID}"></span>
+                <a th:href="@{/message/${messageID}}"><span class="likes">{{likes}}</span></a>
             </div>
             <div class="buttonContainer">
                 <form class="likeBtnForm" action="likeMsg" method="post" target="hiddenFrame">
@@ -87,12 +95,11 @@
                     <button name="id" class="delBtn" value="{{id}}">Delete</button>
                 </form>
             </div>
+            <hr class="sexy-line"/>
         </div>
 
-        <hr class="sexy-line"/>
-        {{/gabs}}
 
-        <iframe name="hiddenFrame" width="0" height="0" border="0" style="display: none;"></iframe>
+        <iframe name="hiddenFrame" width="0" height="0" style="display: none;"></iframe>
         <script type="text/javascript" src="/js/index.js"></script>
     </div>
 
