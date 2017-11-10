@@ -32,6 +32,11 @@ form.addEventListener('submit', function(e) {
     newErr.innerText = "Usernames must be at least 6 characters long";
     errorMessages.appendChild(newErr);
     err = true;
+  } else if (userInput.value.length > 20) {
+      let newErr = document.createElement("li");
+      newErr.innerText = "Usernames may not be longer than 20 characters";
+      errorMessages.appendChild(newErr);
+      err = true;
   }
   if (passInput.value.length < 8) {
     let newErr = document.createElement("li");
