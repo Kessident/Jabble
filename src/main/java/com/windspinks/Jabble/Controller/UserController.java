@@ -85,6 +85,18 @@ public class UserController {
         return "redirect:/login";
     }
 
+    @GetMapping("/logout")
+    public String getLogout(HttpSession session, RedirectAttributes redirect){
+        if (isLoggedIn(session)){
+            session.invalidate();
+            redirect.addFlashAttribute("errorMessage", "Logged Out Successfully");
+            return "redirect:/login";
+        } else {
+            redirect.addFlashAttribute("errorMessage", "Cannot log out if you're not logged in");
+            return "redirect:/login";
+        }
+    }
+
     private boolean isLoggedIn(HttpSession session) {
         return session.getAttribute("userID") != null;
     }

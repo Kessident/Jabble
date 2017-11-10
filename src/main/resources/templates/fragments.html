@@ -23,6 +23,7 @@
         <ul class="errorMessages">
             <li th:each="message : ${errorMessages}"
                 th:text="${message}"></li>
+            <li th:text="${errorMessage}"></li>
         </ul>
 
         <h2>Log in to Jabble</h2>
