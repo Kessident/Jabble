@@ -21,7 +21,8 @@
 
     <div th:fragment="loginForm">
         <ul class="errorMessages">
-            <li th:text="${errorMessage}"></li>
+            <li th:each="message : ${errorMessages}"
+                th:text="${message}"></li>
         </ul>
 
         <h2>Log in to Jabble</h2>

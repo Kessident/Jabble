@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
@@ -60,7 +61,7 @@ public class UserController {
     }
 
     @PostMapping("/signup")
-    public String postSignUp(String username, String password, String passwordConfirm, Model model) {
+    public String postSignUp(String username, String password, String passwordConfirm, Model model, RedirectAttributes redirect) {
         List<String> errorMessages = new ArrayList<>();
         if (username.length() > 20) {
             errorMessages.add("Username may not be longer than 20 characters.");
@@ -79,7 +80,8 @@ public class UserController {
 
         User newUser = new User(username, BCrypt.hashpw(password, BCrypt.gensalt()));
         users.save(newUser);
-        model.addAttribute("errorMessage", "Signed up successfully");
+        errorMessages.add("Signed up successfully");
+        redirect.addFlashAttribute("errorMessages", errorMessages);
         return "redirect:/login";
     }
 
